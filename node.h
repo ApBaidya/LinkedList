@@ -1,6 +1,6 @@
 
 /*
-12.10.2025
+12.16.2025
 node class header file
 */
 #ifndef NODE
