@@ -18,6 +18,6 @@ class node
   void setNext(node* in_n);//set next node
   node* getNext();//return next node pointer
   student* getStudent();//return student pointer
-}
+};
 
 #endif //NODE

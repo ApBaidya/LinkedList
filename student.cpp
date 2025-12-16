@@ -6,23 +6,23 @@
 
 student::student()
 {
-  fname = new char[16];
-  lname = new char[16];
+  fName = new char[16];
+  lName = new char[16];
   //just remember id and gpa exist
 }
 student::~student()
 {
-  delete [] fname;
-  delete [] lname;
+  delete [] fName;
+  delete [] lName;
 }
 
 void student::setF(char* in_f)
 {
-  strcpy(fname, in_f);
+  strcpy(fName, in_f);
 }
 void student::setL(char* in_l)
 {
-  strcpy(lname, in_l);
+  strcpy(lName, in_l);
 }
 void student::setI(int in_i)
 {
@@ -35,11 +35,11 @@ void student::setG(float in_g)
 
 char* student::getF()
 {
-  return fname;
+  return fName;
 }
 char* student::getL()
 {
-  return lname;
+  return lName;
 }
 int student::getI()
 {

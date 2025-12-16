@@ -10,7 +10,7 @@ node::node(student* s)
 }
 node::~node()
 {
-  delete s;
+  delete stud;
 }
 void node::setNext(node* in_n)
 {
@@ -22,5 +22,5 @@ node* node::getNext()
 }
 student* node::getStudent()
 {
-  return s;
+  return stud;
 }
