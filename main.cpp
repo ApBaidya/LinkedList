@@ -1,5 +1,5 @@
 /*
-12.16.2025
+12.18.2025
 Aparajita Baidya
 testing if node and student work
 */
@@ -14,18 +14,41 @@ testing if node and student work
 using namespace std;
 
 //func defs
+/*
 student* mkStud(student* s);
 void ADD(node* head);
 void PRINT();
 void DELETE();
-
+*/
 //main
 int main()
 {
-  node* head = NULL;
+  //Proof that node works
+  student* s = new student;//making student and changing their values
+  char* c = new char[16];
+  strcpy(c, "banana");
+  s->setF(c);
+  c[0]='\0';
+  strcpy(c, "milk");
+  s->setL(c);
+  s->setI(54321);
+  s->setG(3.39);
+  student* s1 = new student;
+  node* test = new node(s);//construct a node (head)
+  node* test1 = new node(s1);//just making a next node
+  cout << "(test->getStudent())->getI()"<<endl;
+  cout << ((test->getStudent())->getI())<<endl;//using getStudent func
+  cout << "test->getNext()"<<endl;
+  test->setNext(test1);//setNext func
+  cout << test->getNext();//getNext func
+  delete test;
+  delete test1;
+  //node* head = NULL;
   //ADD(head);
   return 0;
 }
+
+/*
 student* mkStud(student* s)
 {
   char in_f[16];//first name
@@ -84,4 +107,4 @@ void DELETE()
 {
 
 }
-
+*/

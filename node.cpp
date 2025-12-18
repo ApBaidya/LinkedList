@@ -1,8 +1,8 @@
 /*
-12.16.2025
+12.18.2025
 */
 #include "node.h"
-
+#include <iostream>
 node::node(student* s)
 {
   stud = s;
@@ -10,7 +10,9 @@ node::node(student* s)
 }
 node::~node()
 {
+  //std::cout<< "a";
   delete stud;
+  //std::cout << "b";
 }
 void node::setNext(node* in_n)
 {

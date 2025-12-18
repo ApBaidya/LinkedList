@@ -1,12 +1,11 @@
-
 /*
-12.16.2025
+12.18.2025
 node class header file
 */
 #ifndef NODE
 #define NODE
 #include "student.h"//because student pointer?
-
+#include <iostream>
 class node
 {
  private:
