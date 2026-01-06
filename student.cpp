@@ -2,50 +2,50 @@
 12.16.2025  
 */
 #include <cstring>
-#include "student.h"
+#include "Student.h"
 
-student::student()
+Student::Student()
 {
   fName = new char[16];
   lName = new char[16];
   //just remember id and gpa exist
 }
-student::~student()
+Student::~Student()
 {
   delete [] fName;
   delete [] lName;
 }
 
-void student::setF(char* in_f)
+void Student::setF(char* in_f)
 {
   strcpy(fName, in_f);
 }
-void student::setL(char* in_l)
+void Student::setL(char* in_l)
 {
   strcpy(lName, in_l);
 }
-void student::setI(int in_i)
+void Student::setI(int in_i)
 {
   id = in_i;
 }
-void student::setG(float in_g)
+void Student::setG(float in_g)
 {
   gpa = in_g;
 }
 
-char* student::getF()
+char* Student::getF()
 {
   return fName;
 }
-char* student::getL()
+char* Student::getL()
 {
   return lName;
 }
-int student::getI()
+int Student::getI()
 {
   return id;
 }
-float student::getG()
+float Student::getG()
 {
   return gpa;
 }

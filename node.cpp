@@ -2,6 +2,7 @@
 12.18.2025
 */
 #include "node.h"
+#include "student.h"
 #include <iostream>
 node::node(student* s)
 {

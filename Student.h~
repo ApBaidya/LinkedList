@@ -6,7 +6,7 @@ student header file
 #ifndef STUDENT
 #define STUDENT
 #include <cstring>
-class Student
+class student
 {
  private:
   char* fName;//first name = new char[16]
@@ -14,8 +14,8 @@ class Student
   int id; //student number ID
   float gpa; //...gpa
  public:
-  Student();//constructor
-  ~Student();//destructor
+  student();//constructor
+  ~student();//destructor
   void setF(char* in_f);//in_n = input first name
   void setL(char* in_l);//in_l = input last name
   void setI(int in_i);//in_i = input ID
