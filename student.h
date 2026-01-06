@@ -1,6 +1,6 @@
 /*
 student header file
-12.10.2025
+1.6.2026
 */
 
 #ifndef STUDENT
