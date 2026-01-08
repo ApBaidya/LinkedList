@@ -18,5 +18,3 @@ private:
     Node* nextNode; //the next node that goes after this one in the linked list, defaults to NULL in constructor
     Student* student; //the student pointed to by this node
 };
-
-#endif //NODE

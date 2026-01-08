@@ -1,0 +1,47 @@
+/*
+1.6.2026
+Aparajita Baidya
+testing if node and student work
+*/
+
+//include
+#include <iostream>
+#include <vector>
+#include <cstring>
+#include "Node.h"
+#include "Student.h"
+
+using namespace std;
+
+//func defs
+/*
+student* mkStud(student* s);
+void ADD(node* head);
+void PRINT();
+void DELETE();
+*/
+//main
+int main()
+{
+  //Proof that node works
+  Student* s = new Student;//making student and changing their values
+  char* c = new char[16];
+  strcpy(c, "banana");
+  s->setF(c);
+  c[0]='\0';
+  strcpy(c, "milk");
+  s->setL(c);
+  s->setI(54321);
+  s->setG(3.39);
+  Student* s1 = new Student;
+  Node* test = new Node(s);//construct a node (head)
+  Node* test1 = new Node(s1);//just making a next node
+  cout << "(test->getStudent())->getI()"<<endl;
+  cout << ((test->getStudent())->getI())<<endl;//using getStudent func
+  cout << "test->getNext()"<<endl;
+  test->setNext(test1);//setNext func
+  cout << test->getNext();//getNext func
+  delete test;
+  delete test1;
+  return 0;
+}

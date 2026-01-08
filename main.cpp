@@ -1,55 +1,70 @@
 /*
-12.18.2025
+1.7.2026 - Linked Lists
 Aparajita Baidya
-testing if node and student work
+Student list project, but now with nodes
 */
 
 //include
 #include <iostream>
 #include <vector>
 #include <cstring>
-#include "node.h"
-#include "student.h"
+#include "Node.h"
+#include "Student.h"
 
 using namespace std;
 
 //func defs
-/*
-student* mkStud(student* s);
-void ADD(node* head);
-void PRINT();
-void DELETE();
-*/
+Student* mkStud(Student* s);//create student pointer
+void SortList(Node* head);//sort linked list
+void ADD(Node* head);//add new student to linked list
+void PRINT(Node* head);//print out linked list
+void DELETE(Node* head, int id);//delete a node from list
+void AVERAGE(Node* head, float& aveGPA);//average GPAs
+void QUIT(Node* head);//delete all elements from list
+
 //main
 int main()
 {
-  //Proof that node works
-  student* s = new student;//making student and changing their values
-  char* c = new char[16];
-  strcpy(c, "banana");
-  s->setF(c);
-  c[0]='\0';
-  strcpy(c, "milk");
-  s->setL(c);
-  s->setI(54321);
-  s->setG(3.39);
-  student* s1 = new student;
-  node* test = new node(s);//construct a node (head)
-  node* test1 = new node(s1);//just making a next node
-  cout << "(test->getStudent())->getI()"<<endl;
-  cout << ((test->getStudent())->getI())<<endl;//using getStudent func
-  cout << "test->getNext()"<<endl;
-  test->setNext(test1);//setNext func
-  cout << test->getNext();//getNext func
-  delete test;
-  delete test1;
-  //node* head = NULL;
-  //ADD(head);
+  int run = 0; //main while runs when 0
+  char input[3]; //user input to decide what function to call
+  Node* head = NULL;//head node, start of linked list
+  int id; //id for deletion
+  float aveGPA = 0; //average GPA
+  while(run == 0)
+  {
+    cout << "What would you like to do? ([a] - add, [p] - print, [d] - delete, [av] - average, [q] - quit):" << endl;
+    cin >> input;
+    cin.ignore(10, '\n'); //because who would type something so ridiculously long that you would need more than 10 characters to ignore (o_o)
+    cin.clear();
+    if(strcmp(input, "a") == 0)
+    {
+      ADD(head);//put head pointer (start of list), will loop till reaches end, then add new node to end
+    }
+    else if(strcmp(input, "p") == 0)
+    {
+      PRINT(head);
+    }
+    else if(strcmp(input, "d") == 0)
+    {
+      cout<< "What is the student's id?: "<<endl;
+      cin >> id;
+      cin.clear();
+      DELETE(head, id);
+    }
+    else if(strcmp(input, "av") == 0)
+    {
+      AVERAGE(head, aveGPA);
+    }
+    else if(strcmp(input, "q") == 0)
+    {
+      QUIT(head);
+    }
+  }
   return 0;
 }
 
-/*
-student* mkStud(student* s)
+
+Student* mkStud(Student* s)
 {
   char in_f[16];//first name
   char in_l[16];//last name
@@ -77,15 +92,21 @@ student* mkStud(student* s)
   s->setG(in_g);
   return s;
 }
-void ADD(node* head)
+
+void SortList(Node* head)//sort Node positions by id, least to greatest 
 {
-  node * current = head; //keep track of current with this temp pointer
+  
+}
+
+void ADD(Node* head)
+{
+  Node* current = head; //keep track of current with this temp pointer
   //make new stud
   if(current==NULL)//if the first node in the linked list is NULL
   {
-    //We give it a value
-    student* nStud = new student;
-    head = new node(mkStud(nStud));
+    //We give it a student pointer
+    Student* nStud = new Student;
+    head = new Node(mkStud(nStud));//make head if head doesn't exist
   }
   else
   {
@@ -95,16 +116,45 @@ void ADD(node* head)
       current = current->getNext(); //current pointer = next node in list
       //pretty much iterate until we find end of linked list where we wanna add
     }
-    student* nStud = new student;//make new stud
-    current->setNext(new node(mkStud(nStud)));//add to end of linked list
+    Student* nStud = new Student;//make new stud
+    current->setNext(new Node(mkStud(nStud)));//add to end of linked list
+  }
+  SortList(head);//sort ID nums
+}
+
+void PRINT(Node* head)
+{
+  cout << "List:" << endl;
+  Node* current = head;
+  if(current != NULL)//if next exists, then let's cout all the student details!
+  {
+    Student* stud = current -> getStudent();
   }
 }
-void PRINT(node* head)
+
+void DELETE(Node* head, int id)
 {
-  
+  int nodeNum = 0; //what node we are on
+  Node* current = head;
+  //no elements
+  if(current == NULL)//if there isn't a list
+  {
+    cout << "There isn't anything for you to delete." << endl;
+    return;
+  }
+  //one element
+  //delete head
+  //delete tail
+  //normal delettion
 }
-void DELETE()
+
+void AVERAGE(Node* head, float& aveGPA)
 {
 
 }
-*/
+
+void QUIT(Node* head)
+{
+  Node* current = head;
+  Node* previous = NULL;//previous node
+} 

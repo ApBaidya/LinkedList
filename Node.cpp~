@@ -18,4 +18,3 @@ Node* Node::getNext() { //get the node this node points to
 }
 Node::~Node() { //delete the student when the node is deleted since the two are associated, make sure the students aren't used anywhere else
     delete student;
-}
