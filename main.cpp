@@ -1,5 +1,5 @@
 /*
-1.7.2026 - Linked Lists
+1.8.2026 - Linked Lists
 Aparajita Baidya
 Student list project, but now with nodes
 */
@@ -15,7 +15,7 @@ using namespace std;
 
 //func defs
 Student* mkStud(Student*& s);//create student pointer
-void SortList(Node*& head);//sort linked list
+Node* SortList(Node* head);//sort linked list, return head of sorted list
 void ADD(Node*& head);//add new student to linked list
 void PRINT(Node* head);//print out linked list
 void DELETE(Node*& head, int id);//delete a node from list
@@ -95,9 +95,78 @@ Student* mkStud(Student*& s)
   return s;
 }
 
-void SortList(Node*& head)//sort Nodes by id, least to greatest 
+Node* SortList(Node* head)//sort Nodes by id, least to greatest 
 {
-  
+  //end condition --> when head->getNext() == NULL
+  if(head -> getNext() == NULL)
+  {
+    return head;
+  }
+  //Split condition --> pick pivot --> left linked list and right linked list
+  Node* leftHead = NULL;//for the left list
+  Node* rightHead = NULL;//for the right list
+  Node* pivot = head;//just let the pivot be the head node, easy
+  Node* current = head -> getNext(); //will be the value which will be looked at
+  pivot -> setNext(NULL);//just in case, lets seperate it from the list
+  while(current != NULL)//go through list
+  {
+    if(pivot->getStudent()->getI() > current->getStudent()->getI())//if current is less than pivot -> left
+    {
+      if(leftHead == NULL)
+      {
+	leftHead = current;//set left head
+	current = current->getNext();//get the next value
+	leftHead->setNext(NULL);//detach left head from list
+      }
+      else
+      {
+	Node* tempL = leftHead; //end of left list
+	while(tempL->getNext!=NULL)//go thru list until reach end
+	{
+	  tempL = tempL->getNext();
+	}
+	tempL -> setNext(current);//add current to linked list
+	current = current->getNext();//current becomes next val in list
+	tempL -> getNext() -> setNext(NULL);//reset next in the new node added to left
+      }
+    }
+    if(pivot->getStudent()->getI() < current->getStudent()->getI())//if current greater than pivot -> right
+    {
+      if(rightHead == NULL)//code is essentially the same as the left list code
+      {
+	rightHead = current;
+	current = current -> getNext();
+	rightHead->setNext(NULL);
+      }
+      else
+      {
+	Node* tempR = rightHead;//end of right list
+	while(tempR->getNext!=NULL)//pretty much the same as setting the left list
+	{
+	  tempR = tempR -> getNext();
+	}
+	tempR->setNext(current);
+	current = current -> getNext();
+	tempR -> getNext() -> setNext(NULL);
+      }
+    }
+  }
+  //Recurse on both sides
+  leftHead = SortList(leftHead);
+  rightHead = SortList(rightHead);
+  //Combine the left + pivot + right
+  pivot -> setNext(rightHead);
+  //find end of left list
+  leftTail = leftHead;//default
+  while(leftTail!=NULL)
+  {
+    if(leftTail->getNext() == NULL)
+    {
+      leftTail->getNext = pivot;//connect left tail to pivot
+    }
+  }
+  //return list
+  return leftHead;
 }
 
 void ADD(Node*& head)
@@ -123,7 +192,7 @@ void ADD(Node*& head)
     cout << current->getNext();
   }
   Node* temp = NULL;
-  SortList(head);//sort ID nums
+  head = SortList(head);//sort ID nums
 }
 
 void PRINT(Node* head)
