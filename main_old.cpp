@@ -15,7 +15,7 @@ using namespace std;
 
 //func defs
 Student* mkStud(Student*& s);//create student pointer
-void SortList(Node*& head);//sort linked list
+void SortList(Node*& head, Node* prev, Node* h);//sort linked list
 void ADD(Node*& head);//add new student to linked list
 void PRINT(Node* head);//print out linked list
 void DELETE(Node*& head, int id);//delete a node from list
@@ -95,9 +95,55 @@ Student* mkStud(Student*& s)
   return s;
 }
 
-void SortList(Node*& head)//sort Nodes by id, least to greatest 
+void SortList(Node*& cur, Node* prev, Node* h, Node* oldPrev)//sort Nodes by id, least to greatest 
 {
-  
+  Node* current = cur;//is initially inputted as head
+  cout << current;
+  Node* head1 = h;
+  if(h == NULL)//if head itself is NULL
+  { 
+    return;
+  }
+  if(h -> getNext() == NULL || h->getNext() == 0)//if length is only one node
+  {
+    return;
+  }
+  if(current -> getNext()==NULL || current -> getNext() == 0)//if at end of list
+  {
+    return;
+  }
+  Node* next = current->getNext();
+  //if at start of list and can recurse
+  cout << current->getStudent()->getI()<<next->getStudent()->getI();
+  if(prev == NULL)//start of list
+  {
+    if(current->getStudent()->getI()>next->getStudent()->getI())//if current greater than next
+      {
+	//swap head and next, making next the new head of list
+	current -> setNext(next->getNext());
+	next -> setNext(current);
+	cur = next;
+	prev = next;//make prev the head since we're now going to check if the next next value should be swapped
+	cout<<"aaa";
+	SortList(current, cur, cur);
+      }
+    else
+    {
+      SortList(next, current, current);//check out next node
+    }
+  }
+  //
+  else if(current->getStudent()->getI()>next->getStudent()->getI())
+  {
+    //swap places
+    current->setNext(next->getNext());
+    prev->setNext(next);
+    next->setNext(current);
+    if(prev->getStudent()->getI()>next->getStudent()->getI())//is prev is now bigger than next
+    {
+      SortList()
+    }
+  }
 }
 
 void ADD(Node*& head)
@@ -123,7 +169,7 @@ void ADD(Node*& head)
     cout << current->getNext();
   }
   Node* temp = NULL;
-  SortList(head);//sort ID nums
+  SortList(head, temp, head);//sort ID nums
 }
 
 void PRINT(Node* head)
