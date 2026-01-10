@@ -8,6 +8,7 @@ Student list project, but now with nodes
 #include <iostream>
 #include <vector>
 #include <cstring>
+#include <iomanip>
 #include "Node.h"
 #include "Student.h"
 
@@ -18,7 +19,7 @@ Student* mkStud(Student*& s);//create student pointer
 void addList(Node* current, Node* newNode);//add node to the list
 void ADD(Node*& head);//add new student to linked list
 void PRINT(Node* head);//print out linked list
-void DELETE(Node*& head, int id);//delete a node from list
+void DELETE(Node*& head, Node* prev, int id);//delete a node from list
 void AVERAGE(Node* head, float& aveGPA);//average GPAs
 void QUIT(Node*& head);//delete all elements from list
 
@@ -30,6 +31,7 @@ int main()
   Node* head = NULL;//head node, start of linked list
   int id; //id for deletion
   float aveGPA = 0; //average GPA
+  Node* prev = NULL; //to aid with delete fuction
   while(run == 0)
   {
     cout << "What would you like to do? ([a] - add, [p] - print, [d] - delete, [av] - average, [q] - quit):" << endl;
@@ -51,7 +53,7 @@ int main()
       cout<< "What is the student's id?: "<<endl;
       cin >> id;
       cin.clear();
-      DELETE(head, id);
+      DELETE(head, prev, id);
     }
     else if(strcmp(input, "av") == 0)
     {
@@ -163,26 +165,52 @@ void PRINT(Node* head)
   {
     //cout<<'a';
     Student* stud = current -> getStudent();//make a pointer to the node's student
-    cout<<stud->getF()<<" "<<stud->getL()<<" "<<stud->getI()<<" "<<stud->getG()<<endl;
+    cout<<stud->getF()<<" "<<stud->getL()<<" "<<stud->getI()<<" "<<setprecision(3)<<stud->getG()<<endl;
     PRINT((current->getNext()));//time to recurse haha.
   }
 }
 
-void DELETE(Node*& head, int id)
+void DELETE(Node*& current, Node* prev, int id)
 {
   int nodeNum = 0; //what node we are on
-  Node* current = head;
-  Node* previous = NULL;//need previous node so I can change it's nextNode to NULL after deleting current
+  Node* c = current;
   //no elements
   if(current == NULL)//if there isn't a list
   {
     cout << "There isn't anything for you to delete." << endl;
     return;
   }
-  //one element
-  //delete head
-  //delete tail
-  //normal delettion
+  if(current->getStudent()->getI()==id)
+  {
+    //head of list
+    if(prev == NULL)
+    {
+      if(c->getNext() == NULL || c->getNext() ==0)//only value in list
+      {
+	c -> setNext(NULL);
+	delete current;
+	current = NULL;
+	return;
+      }
+      //something else in list
+      else
+      {
+	c = current -> getNext();//store next pointer
+	delete current;
+	current = c;//replace head
+	return;
+      }
+    }
+    else//somewhere in the list
+    {
+      prev->setNext(current->getNext());//skip current
+      delete current;
+      return;
+    }
+  }
+  c = current->getNext();
+  prev = current;
+  DELETE(c, prev, id);
 }
 
 void AVERAGE(Node* head, float& aveGPA)
