@@ -1,5 +1,5 @@
 /*
-1.9.2026 - Linked Lists
+1.8.2026 - Linked Lists
 Aparajita Baidya
 Student list project, but now with nodes
 */
@@ -15,7 +15,7 @@ using namespace std;
 
 //func defs
 Student* mkStud(Student*& s);//create student pointer
-void addList(Node* current, Node* newNode);//add node to the list
+Node* SortList(Node* head);//sort linked list, return head of sorted list
 void ADD(Node*& head);//add new student to linked list
 void PRINT(Node* head);//print out linked list
 void DELETE(Node*& head, int id);//delete a node from list
@@ -88,72 +88,111 @@ Student* mkStud(Student*& s)
   cout<<"GPA:"<< endl;
   cin >> in_g;
   cout<<endl;
-  //cout<<"2";
   s->setF(in_f);
   s->setL(in_l);
   s->setI(in_i);
   s->setG(in_g);
-  //cout<<"Here";
   return s;
 }
 
-void addList(Node* current, Node* newNode)//find where to put new node
+Node* SortList(Node* head)//sort Nodes by id, least to greatest 
 {
-  if(newNode->getStudent()->getI()<current->getStudent()->getI())//if we get here, new node would have found it's position
+  //end condition --> when head->getNext() == NULL
+  if(head -> getNext() == NULL)
   {
-    return;
+    return head;
   }
-  else
+  //Split condition --> pick pivot --> left linked list and right linked list
+  Node* leftHead = NULL;//for the left list
+  Node* rightHead = NULL;//for the right list
+  Node* pivot = head;//just let the pivot be the head node, easy
+  Node* current = head -> getNext(); //will be the value which will be looked at
+  pivot -> setNext(NULL);//just in case, lets seperate it from the list
+  while(current != NULL)//go through list
   {
-    //if end of list
-    if(current->getNext() == NULL || current->getNext() == 0)
+    if(pivot->getStudent()->getI() > current->getStudent()->getI())//if current is less than pivot -> left
     {
-      current->setNext(newNode);
-      return;
+      if(leftHead == NULL)
+      {
+	leftHead = current;//set left head
+	current = current->getNext();//get the next value
+	leftHead->setNext(NULL);//detach left head from list
+      }
+      else
+      {
+	Node* tempL = leftHead; //end of left list
+	while(tempL->getNext!=NULL)//go thru list until reach end
+	{
+	  tempL = tempL->getNext();
+	}
+	tempL -> setNext(current);//add current to linked list
+	current = current->getNext();//current becomes next val in list
+	tempL -> getNext() -> setNext(NULL);//reset next in the new node added to left
+      }
     }
-    //if new node is greater than current but less than next
-    if(newNode->getStudent()->getI()>current->getStudent()->getI() && newNode->getStudent()->getI()<current->getNext()->getStudent()->getI())
+    if(pivot->getStudent()->getI() < current->getStudent()->getI())//if current greater than pivot -> right
     {
-      //put it between the values
-      newNode -> setNext(current->getNext());
-      current -> setNext(newNode);
-    }
-    else//if greater than student and greater than next
-    {
-      addList(current->getNext(), newNode);//recurse with next value in list
+      if(rightHead == NULL)//code is essentially the same as the left list code
+      {
+	rightHead = current;
+	current = current -> getNext();
+	rightHead->setNext(NULL);
+      }
+      else
+      {
+	Node* tempR = rightHead;//end of right list
+	while(tempR->getNext!=NULL)//pretty much the same as setting the left list
+	{
+	  tempR = tempR -> getNext();
+	}
+	tempR->setNext(current);
+	current = current -> getNext();
+	tempR -> getNext() -> setNext(NULL);
+      }
     }
   }
-  return;
+  //Recurse on both sides
+  leftHead = SortList(leftHead);
+  rightHead = SortList(rightHead);
+  //Combine the left + pivot + right
+  pivot -> setNext(rightHead);
+  //find end of left list
+  leftTail = leftHead;//default
+  while(leftTail!=NULL)
+  {
+    if(leftTail->getNext() == NULL)
+    {
+      leftTail->getNext = pivot;//connect left tail to pivot
+    }
+  }
+  //return list
+  return leftHead;
 }
 
 void ADD(Node*& head)
 {
   Node* current = head; //keep track of current with this temp pointer
-  Node* newnode = NULL;
   //make new stud
   if(current==NULL)//if the first node in the linked list is NULL
   {
     //We give it a student pointer
-    cout << "made head"<<endl;
     Student* nStud = new Student;
     head = new Node(mkStud(nStud));//make head if head doesn't exist
-    return;
   }
   else
   {
+    //when there is a next node in linked list and wanna add
+    while(current->getNext() != NULL && current ->getNext()!=0)
+    {
+      current = current->getNext(); //current pointer = next node in list
+      //pretty much iterate until we find end of linked list where we wanna add
+    }
     Student* nStud = new Student;//make new stud
-    newnode = new Node(mkStud(nStud));
-    cout<<"madeStud";
-    //current->setNext(new Node(mkStud(nStud)));//add to end of linked list
-    //cout << current->getNext();
+    current->setNext(new Node(mkStud(nStud)));//add to end of linked list
+    cout << current->getNext();
   }
-  if(head->getStudent()->getI()>newnode->getStudent()->getI())//if new node id is less tha head, make it new head
-  {
-    newnode -> setNext(head);
-    head = newnode;
-    return;
-  }
-  addList(head, newnode);
+  Node* temp = NULL;
+  head = SortList(head);//sort ID nums
 }
 
 void PRINT(Node* head)
