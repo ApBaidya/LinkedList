@@ -19,8 +19,8 @@ Student* mkStud(Student*& s);//create student pointer
 void addList(Node* current, Node* newNode);//add node to the list
 void ADD(Node*& head);//add new student to linked list
 void PRINT(Node* head);//print out linked list
-void DELETE(Node*& head, Node* prev, int id);//delete a node from list
-void AVERAGE(Node* head, float& aveGPA);//average GPAs
+void DELETE(Node*& current, Node* prev, int id);//delete a node from list
+void AVERAGE(Node* current, float& aveGPA);//average GPAs
 void QUIT(Node*& head);//delete all elements from list
 
 //main
@@ -57,7 +57,9 @@ int main()
     }
     else if(strcmp(input, "av") == 0)
     {
+      aveGPA = 0; //reset gpa
       AVERAGE(head, aveGPA);
+      cout<< "Average GPA: "<<aveGPA<<endl;
     }
     else if(strcmp(input, "q") == 0)
     {
@@ -145,7 +147,7 @@ void ADD(Node*& head)
   {
     Student* nStud = new Student;//make new stud
     newnode = new Node(mkStud(nStud));
-    cout<<"madeStud";
+    cout<<"made student"<<endl;
     //current->setNext(new Node(mkStud(nStud)));//add to end of linked list
     //cout << current->getNext();
   }
@@ -213,9 +215,20 @@ void DELETE(Node*& current, Node* prev, int id)
   DELETE(c, prev, id);
 }
 
-void AVERAGE(Node* head, float& aveGPA)
+void AVERAGE(Node* current, float& aveGPA)
 {
-
+  if(current -> getNext() == NULL||current->getNext()==0)
+  {
+    //end of list
+    avePGA = aveGPA + current->getStudent()->getG();
+    return;
+  }
+  else
+  {
+    aveGPA = aveGPA + current -> getStudent() -> getG();//update average
+    AVERAGE(current->getStudent()->getI(), aveGPA)//recurse
+  }
+  return;
 }
 
 void QUIT(Node*& head)
