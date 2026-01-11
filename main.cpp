@@ -20,12 +20,13 @@ void addList(Node* current, Node* newNode);//add node to the list
 void ADD(Node*& head);//add new student to linked list
 void PRINT(Node* head);//print out linked list
 void DELETE(Node*& current, Node* prev, int id);//delete a node from list
-void AVERAGE(Node* current, float& aveGPA);//average GPAs
-void QUIT(Node*& head);//delete all elements from list
+void AVERAGE(Node* current, float& aveGPA, int& listLen);//average GPAs
+void QUIT(Node*& current);//delete all elements from list
 
 //main
 int main()
 {
+  int listLen = 0;//help with ave
   int run = 0; //main while runs when 0
   char input[3]; //user input to decide what function to call
   Node* head = NULL;//head node, start of linked list
@@ -58,12 +59,14 @@ int main()
     else if(strcmp(input, "av") == 0)
     {
       aveGPA = 0; //reset gpa
-      AVERAGE(head, aveGPA);
+      listLen = 0;//reset list length 
+      AVERAGE(head, aveGPA, listLen);
       cout<< "Average GPA: "<<aveGPA<<endl;
     }
     else if(strcmp(input, "q") == 0)
     {
       QUIT(head);
+      run = 1;
     }
   }
   return 0;
@@ -215,24 +218,39 @@ void DELETE(Node*& current, Node* prev, int id)
   DELETE(c, prev, id);
 }
 
-void AVERAGE(Node* current, float& aveGPA)
+void AVERAGE(Node* current, float& aveGPA, int& listLen)
 {
-  if(current -> getNext() == NULL||current->getNext()==0)
+  listLen ++;
+  if(current==NULL||current==0)
   {
+    return;
+  }
+  if(current -> getNext()==NULL || current->getNext() ==0)
+  {
+    aveGPA = aveGPA + (current ->getStudent()->getG());
+    aveGPA = aveGPA/listLen;
     //end of list
-    avePGA = aveGPA + current->getStudent()->getG();
     return;
   }
   else
   {
-    aveGPA = aveGPA + current -> getStudent() -> getG();//update average
-    AVERAGE(current->getStudent()->getI(), aveGPA)//recurse
+    aveGPA = aveGPA + (current -> getStudent() -> getG());//update average
+    AVERAGE(current->getNext(), aveGPA, listLen);//recurse
   }
   return;
 }
 
-void QUIT(Node*& head)
+void QUIT(Node*& current)
 {
-  Node* current = head;
-  Node* previous = NULL;//previous node
+  Node* c = current;
+  if(current==NULL||current==0)
+  {
+    return;
+  }
+  else
+  {
+    c = current -> getNext();
+    delete current;
+    QUIT(c);
+  }
 } 
