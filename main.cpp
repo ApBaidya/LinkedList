@@ -1,5 +1,5 @@
 /*
-1.9.2026 - Linked Lists
+1.10.2026 - Linked Lists
 Aparajita Baidya
 Student list project, but now with nodes
 */
@@ -115,7 +115,7 @@ void addList(Node* current, Node* newNode)//find where to put new node
     //if end of list
     if(current->getNext() == NULL || current->getNext() == 0)
     {
-      current->setNext(newNode);
+      current->setNext(newNode);//add to end of list
       return;
     }
     //if new node is greater than current but less than next
@@ -194,7 +194,7 @@ void DELETE(Node*& current, Node* prev, int id)
       {
 	c -> setNext(NULL);
 	delete current;
-	current = NULL;
+	current = NULL;//reset head pointer
 	return;
       }
       //something else in list
@@ -215,21 +215,20 @@ void DELETE(Node*& current, Node* prev, int id)
   }
   c = current->getNext();
   prev = current;
-  DELETE(c, prev, id);
+  DELETE(c, prev, id);//recurse hahaha
 }
 
 void AVERAGE(Node* current, float& aveGPA, int& listLen)
 {
-  listLen ++;
-  if(current==NULL||current==0)
+  listLen ++;//keep track of how many values have been added to aveGPA
+  if(current==NULL||current==0)//end condition
   {
     return;
   }
-  if(current -> getNext()==NULL || current->getNext() ==0)
+  if(current -> getNext()==NULL || current->getNext() ==0)//end of list, then average the values
   {
     aveGPA = aveGPA + (current ->getStudent()->getG());
     aveGPA = aveGPA/listLen;
-    //end of list
     return;
   }
   else
@@ -245,12 +244,13 @@ void QUIT(Node*& current)
   Node* c = current;
   if(current==NULL||current==0)
   {
-    return;
+    return;//end of list, then return
   }
   else
   {
-    c = current -> getNext();
-    delete current;
+    c = current -> getNext();//keep track of next value in list
+    delete current;//delete current value
     QUIT(c);
   }
+  return;
 } 
