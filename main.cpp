@@ -119,7 +119,7 @@ void addList(Node* current, Node* newNode)//find where to put new node
       return;
     }
     //if new node is greater than current but less than next
-    if(newNode->getStudent()->getI()>current->getStudent()->getI() && newNode->getStudent()->getI()<current->getNext()->getStudent()->getI())
+    if(newNode->getStudent()->getI()>=current->getStudent()->getI() && newNode->getStudent()->getI()<current->getNext()->getStudent()->getI())
     {
       //put it between the values
       newNode -> setNext(current->getNext());
