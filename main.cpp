@@ -1,5 +1,5 @@
 /*
-1.10.2026 - Linked Lists
+1.14.2026 - Linked Lists
 Aparajita Baidya
 Student list project, but now with nodes
 */
@@ -179,6 +179,7 @@ void DELETE(Node*& current, Node* prev, int id)
 {
   int nodeNum = 0; //what node we are on
   Node* c = current;
+  Node* temp = NULL;
   //no elements
   if(current == NULL)//if there isn't a list
   {
@@ -200,9 +201,9 @@ void DELETE(Node*& current, Node* prev, int id)
       //something else in list
       else
       {
-	c = current -> getNext();//store next pointer
+	temp = current -> getNext();//store next pointer
 	delete current;
-	current = c;//replace head
+	current = temp;//replace head
 	return;
       }
     }
@@ -213,9 +214,11 @@ void DELETE(Node*& current, Node* prev, int id)
       return;
     }
   }
-  c = current->getNext();
-  prev = current;
-  DELETE(c, prev, id);//recurse hahaha
+  temp = current->getNext();
+  Node* tempPrev = NULL;
+  tempPrev = current;
+  DELETE(temp, tempPrev, id);//recurse hahaha
+  return;
 }
 
 void AVERAGE(Node* current, float& aveGPA, int& listLen)
